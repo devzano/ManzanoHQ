@@ -4,21 +4,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  useMotionTemplate,
-} from "framer-motion";
-import {
-  Sparkles,
-  Boxes,
-  ShoppingBag,
-  Wand2,
-  ArrowRight,
-  ArrowUpRightSquare,
-} from "lucide-react";
+import { motion, useScroll, useTransform, useSpring, useMotionTemplate } from "framer-motion";
+import { Sparkles, Boxes, ShoppingBag, Wand2, ArrowRight, ArrowUpRightSquare } from "lucide-react";
 
 import NeonButton from "@/components/ui/NeonButton";
 import HireForm from "@/components/ui/HireForm";
@@ -95,7 +82,7 @@ export default function Home() {
             transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
             style={{ outline: `1px solid rgba(${ACCENT_RGB},0.5)` }}
           >
-            <Image src="/images/icon.png" alt="ManzanoHQ icon" fill sizes="36px" priority />
+            <Image src="/images/logo/logoMain.png" alt="ManzanoHQ icon" fill sizes="36px" priority />
           </motion.div>
         </Link>
       </motion.nav>
@@ -139,7 +126,7 @@ export default function Home() {
             <motion.div variants={fadeUpVariant(0.12)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }} className="md:col-span-5">
               <TiltCard className="will-change-transform">
                 <div
-                  className="w-full h-80 md:h-[26rem] rounded-[2rem] backdrop-blur-xl bg-white/5 border relative flex items-center justify-center"
+                  className="w-full h-80 md:h-104 rounded-4xl backdrop-blur-xl bg-white/5 border relative flex items-center justify-center"
                   style={{ borderColor: `rgba(${PRIMARY_RGB},0.25)`, boxShadow: glow as any }}
                 >
                   <motion.div
@@ -148,7 +135,7 @@ export default function Home() {
                     className="relative h-32 w-56 md:h-40 md:w-72"
                   >
                     <Image
-                      src="/images/logo/logo-invert-alpha.png"
+                      src="/images/logo/logoInvertAlpha.png"
                       alt="ManzanoHQ mark"
                       fill
                       sizes="(max-width: 768px) 224px, 288px"
@@ -160,7 +147,7 @@ export default function Home() {
                   {/* morphing glow blob */}
                   <motion.div
                     aria-hidden
-                    className="absolute -z-10 inset-0 rounded-[2rem]"
+                    className="absolute -z-10 inset-0 rounded-4xl"
                     style={{ background: `radial-gradient(120px 120px at 70% 30%, rgba(${ACCENT_RGB},0.2), transparent 60%)` }}
                     animate={{ scale: [1, 1.04, 1], rotate: [0, 5, -3, 0] }}
                     transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
@@ -222,7 +209,7 @@ export default function Home() {
             <motion.div variants={fadeUpVariant(0.12)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }} className="md:col-span-6">
               <div className="rounded-3xl p-6 md:p-8 backdrop-blur-xl bg-white/5 border" style={{ borderColor: `rgba(${ACCENT_RGB},0.35)` }}>
                 <div className="flex flex-wrap gap-3 text-sm text-white/80">
-                  {["Blank", "Blank", "Blank", "Blank", "Blank", "Blank"].map((t) => (
+                  {["Blank", "Lorem", "Ipsum", "Test", "Pow", "Wow"].map((t) => (
                     <span key={t} className="px-3 py-1 rounded-full border border-white/15 bg-white/5">{t}</span>
                   ))}
                 </div>
