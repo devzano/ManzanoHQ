@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
@@ -19,8 +20,48 @@
   }
 }
 
+/* Motion safety (was in <style jsx global>) */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+
+html,
+body,
+#__next {
+  height: 100%;
+}
+
+
+/* Futuristic grid background */
+.bg-mesh {
+  background: radial-gradient(1200px 800px at 10% 10%, rgba(32, 248, 255, 0.12), transparent 35%),
+    radial-gradient(900px 600px at 90% 20%, rgba(32, 248, 255, 0.10), transparent 40%),
+    radial-gradient(700px 500px at 50% 90%, rgba(32, 248, 255, 0.08), transparent 45%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+}
+
+
+.glass {
+  @apply backdrop-blur-xl bg-white/5 border border-white/10;
+}
+
+
+.neon-ring {
+  box-shadow: 0 0 0 1px rgba(32, 248, 255, 0.6), 0 0 80px rgba(32, 248, 255, 0.25), inset 0 0 60px rgba(32, 248, 255, 0.15);
 }
