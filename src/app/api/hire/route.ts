@@ -12,8 +12,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 });
     }
 
-    const to = process.env.HIRE_TO_EMAIL;
-    const from = process.env.HIRE_FROM_EMAIL;
+    const to = process.env.NOTIFY_TO_EMAIL;
+    const from = process.env.NOTIFY_FROM_EMAIL;
 
     if (!to || !from) {
       return NextResponse.json({ error: 'Server email is not configured.' }, { status: 500 });

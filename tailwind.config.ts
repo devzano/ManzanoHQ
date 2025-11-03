@@ -1,3 +1,5 @@
+// tailwind.config.ts
+
 import type { Config } from 'tailwindcss';
 // import { fontFamily } from 'tailwindcss/defaultTheme';
 // import nativewind from 'nativewind/preset';
