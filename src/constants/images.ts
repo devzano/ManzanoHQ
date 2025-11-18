@@ -3,6 +3,8 @@ import type { StaticImageData } from "next/image";
 
 import DEV from "../../public/images/devLogos/devzano.png";
 import Logo from "../../public/images/logo/logoMain.png";
+import LogoWorded from "../../public/images/logo/logoWorded.png";
+import LogoWordedAlt from "../../public/images/logo/logoWordedAlt.png";
 import LogoAlt from "../../public/images/logo/logoMainAlt.png";
 import LogoInvertAlpha from "../../public/images/logo/logoInvertAlpha.png";
 import HomeIcon from "../../public/images/devLogos/home_icon.png";
@@ -25,6 +27,8 @@ type Img = StaticImageData;
 const AppImages = {
   dev: DEV as Img,
   logo: Logo as Img,
+  logoWorded: LogoWorded as Img,
+  logoWordedAlt: LogoWordedAlt as Img,
   logoAlt: LogoAlt as Img,
   logoInvertAlpha: LogoInvertAlpha as Img,
   home: HomeIcon as Img,
