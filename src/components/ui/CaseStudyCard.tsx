@@ -67,3 +67,25 @@ export default function CaseStudyCard({ href, cover, title, tags, blurb, kpis = 
     </motion.article>
   );
 }
+
+//  {/* Case Studies – PopShop */}
+//         <section className="px-4 sm:px-6 lg:px-10 py-10 lg:py-16">
+//           <div className="mx-auto w-full max-w-7xl">
+//             <SectionTitle title="Case Studies" subtitle="Selected work" />
+//             <div className="mt-6 sm:mt-8 grid grid-cols-1">
+//               <CaseStudyCard
+//                 href="/popshop"
+//                 cover="/images/mps/mpsLogo.png"
+//                 title="Manzano’s PopShop"
+//                 tags={["React Native", "Expo", "Stripe", "Supabase", "AdMob"]}
+//                 blurb="A high-polish storefront for collectibles: themed UI, wishlists, tracking, admin tooling, and smooth checkout with Stripe."
+//                 kpis={[
+//                   { label: "Checkout Success", value: "99%+" },
+//                   { label: "TTI (native)", value: "< 1.5s" },
+//                   { label: "Platforms", value: "iOS / Android" },
+//                   { label: "Sessions", value: "10k+" },
+//                 ]}
+//               />
+//             </div>
+//           </div>
+//         </section>

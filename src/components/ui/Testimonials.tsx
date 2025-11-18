@@ -42,3 +42,11 @@ export default function Testimonials() {
     </div>
   );
 }
+{/* <section className="px-4 sm:px-6 lg:px-10 py-10 lg:py-16">
+  <div className="mx-auto w-full max-w-7xl">
+    <SectionTitle title="What partners say" subtitle="Testimonials" />
+    <div className="mt-6 sm:mt-8">
+      <Testimonials />
+    </div>
+  </div>
+</section>; */}

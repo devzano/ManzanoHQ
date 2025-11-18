@@ -3,22 +3,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  useMotionTemplate,
-} from "framer-motion";
-import {
-  Sparkles,
-  Boxes,
-  ShoppingBag,
-  Wand2,
-  ArrowRight,
-  ArrowUpRightSquare,
-} from "lucide-react";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useSpring, useMotionTemplate } from "framer-motion";
+import { Sparkles } from "lucide-react";
 
 import TopNav from "@/components/ui/TopNav";
 import NeonButton from "@/components/ui/NeonButton";
@@ -27,22 +14,19 @@ import HireDialog from "@/components/ui/HireDialog";
 import HoloCard from "@/components/ui/HoloCard";
 import { PRIMARY_HEX, ACCENT_HEX, ACCENT_RGB, PRIMARY_RGB } from "@/lib/brand";
 import { fadeUpVariant, staggerContainer, item } from "@/lib/motion";
-import Magnetic from "@/components/ui/Magnetic";
 import TiltCard from "@/components/ui/TiltCard";
-import FloatingOrbs from "@/components/ui/FloatingOrbs";
-import Beams from "@/components/ui/Beams";
 import SectionTitle from "@/components/ui/SectionTitle";
 import LogosBar from "@/components/ui/LogoBar";
 import Stats from "@/components/ui/Stats";
-import Testimonials from "@/components/ui/Testimonials";
 import FAQ from "@/components/ui/FAQ";
-import CaseStudyCard from "@/components/ui/CaseStudyCard";
 import AppImages from "@/constants/images";
+import CaseStudyCard from "@/components/ui/CaseStudyCard";
+import Testimonials from "@/components/ui/Testimonials";
+import ContactSection from "@/components/ui/ContactSection";
 
 export default function Home() {
   const pageRef = useRef<HTMLDivElement>(null);
 
-  // Scroll progress for top bar
   const { scrollYProgress } = useScroll({
     target: pageRef,
     offset: ["start start", "end end"],
@@ -53,24 +37,8 @@ export default function Home() {
     mass: 0.2,
   });
 
-  // Parallax background layers
-  const bgTranslate1 = useTransform(scrollYProgress, [0, 1], [0, 140]);
-  const bgTranslate2 = useTransform(scrollYProgress, [0, 1], [0, 70]);
-
-  const meshStyle = useMemo(
-    () => ({
-      background:
-        `radial-gradient(1200px 800px at 8% 12%, rgba(${ACCENT_RGB},0.12), transparent 35%),` +
-        `radial-gradient(900px 600px at 92% 18%, rgba(${ACCENT_RGB},0.10), transparent 40%),` +
-        `radial-gradient(700px 500px at 50% 92%, rgba(${PRIMARY_RGB},0.10), transparent 45%),` +
-        `linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0))`,
-    }),
-    []
-  );
-
   const [openHire, setOpenHire] = useState(false);
 
-  // Scroll-reactive glow around hero mark
   const glow = useMotionTemplate`0 0 ${useTransform(
     scrollYProgress,
     [0, 1],
@@ -78,37 +46,23 @@ export default function Home() {
   )}px rgba(${ACCENT_RGB}, 0.35)`;
 
   return (
-    <div ref={pageRef} className="relative min-h-screen w-full bg-black text-white">
+    <div
+      ref={pageRef}
+      className="relative z-10 min-h-screen w-full text-white"
+    >
       <TopNav />
 
-      {/* 100% Progress bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] z-50 origin-left"
         style={{
           scaleX: progress,
-          background: `linear-gradient(90deg, ${PRIMARY_HEX}, ${ACCENT_HEX})`,
+          background: 'linear-gradient(90deg, var(--mesh-primary), var(--mesh-secondary))',
         }}
       />
-
-      {/* Background layers */}
-      <motion.div aria-hidden className="pointer-events-none fixed inset-0 -z-10" style={{ y: bgTranslate1, ...meshStyle }} />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10 opacity-60"
-        style={{
-          y: bgTranslate2,
-          backgroundImage:
-            "radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
-      />
-      <FloatingOrbs />
-      <Beams />
 
       <main>
         {/* HERO */}
-        {/* add top padding to clear fixed nav */}
-        <section className="pt-20 sm:pt-24 px-4 sm:px-6 lg:px-10 pb-8 sm:pb-10">
+        <section className="pt-20 sm:pt-24 px-4 sm:px-6 lg:px-10 pb-4 sm:pb-6">
           <div className="mx-auto w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             {/* Left */}
             <motion.div
@@ -124,11 +78,14 @@ export default function Home() {
               >
                 <Sparkles size={16} />
                 <span className="text-white/80 text-sm sm:text-base">
-                  Apps • Commerce • Design Systems
+                  Apps • Commerce
                 </span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] text-balance">
+              <h1
+                className="text-4xl sm:text-5xl lg:text-7xl tracking-tight leading-[1.05] text-balance"
+                style={{ fontFamily: "var(--font-lato)" }}
+              >
                 ManzanoHQ
               </h1>
 
@@ -141,7 +98,7 @@ export default function Home() {
                 Headquarters for the products we build and the experiences we ship.
               </motion.p>
 
-              <motion.div
+              {/* <motion.div
                 className="mt-6 sm:mt-8 flex flex-wrap gap-3 sm:gap-4"
                 variants={staggerContainer}
                 initial="hidden"
@@ -151,26 +108,19 @@ export default function Home() {
                   <NeonButton
                     title="explore products"
                     onClick={() =>
-                      document.querySelector("#products")?.scrollIntoView({ behavior: "smooth" })
+                      document
+                        .querySelector("#products")
+                        ?.scrollIntoView({ behavior: "smooth" })
                     }
                   />
                 </motion.div>
-                <motion.div variants={item}>
-                  <button
-                    className="px-5 sm:px-6 py-3 rounded-2xl border text-white/80 font-semibold transition hover:bg-white/5"
-                    style={{ borderColor: `rgba(${ACCENT_RGB},0.35)` }}
-                    onClick={() =>
-                      document.querySelector("#pillars")?.scrollIntoView({ behavior: "smooth" })
-                    }
-                  >
-                    what we do
-                  </button>
-                </motion.div>
-              </motion.div>
+              </motion.div> */}
 
               <div className="mt-6 sm:mt-8">
                 <div className="mx-auto w-full max-w-7xl">
-                  <div className="text-white/50 text-sm mb-3">Trusted tools we build with</div>
+                  <div className="text-white/50 text-sm mb-3">
+                    Trusted Tools We Build With
+                  </div>
                   <LogosBar />
                 </div>
               </div>
@@ -198,7 +148,7 @@ export default function Home() {
                     className="relative h-24 w-40 sm:h-32 sm:w-56 lg:h-40 lg:w-72"
                   >
                     <Image
-                      src="/images/logo/logoInvertAlpha.png"
+                      src={AppImages.logoInvertAlpha}
                       alt="ManzanoHQ mark"
                       fill
                       sizes="(max-width: 640px) 160px, (max-width: 1024px) 224px, 288px"
@@ -207,7 +157,6 @@ export default function Home() {
                     />
                   </motion.div>
 
-                  {/* morphing glow blob */}
                   <motion.div
                     aria-hidden
                     className="absolute -z-10 inset-0 rounded-4xl"
@@ -222,6 +171,175 @@ export default function Home() {
             </motion.div>
           </div>
         </section>
+
+        {/* PRODUCTS HUB + STATS */}
+        <section id="products" className="px-4 sm:px-6 lg:px-10 py-10 lg:py-16">
+          <div className="mx-auto w-full max-w-7xl">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
+              {/* LEFT: Products column (HORIZONTAL SCROLL) */}
+              <motion.div
+                className="lg:col-span-8 flex flex-col gap-4"
+                variants={fadeUpVariant(0.05)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <SectionTitle title="Products" subtitle="Explore the ecosystem" />
+
+                <div
+                  className="relative rounded-3xl border bg-white/5 backdrop-blur-xl p-4 sm:p-5 overflow-hidden"
+                  style={{ borderColor: `rgba(${PRIMARY_RGB},0.25)` }}
+                >
+                  <div className="h-auto max-h-[285px] lg:h-[285px] overflow-x-auto overflow-y-hidden pr-1">
+                    <motion.div
+                      className="flex gap-4 sm:gap-5"
+                      variants={staggerContainer}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, amount: 0.3 }}
+                    >
+                      <motion.div
+                        variants={item}
+                        className="w-[260px] sm:w-[280px] lg:w-[320px] shrink-0"
+                      >
+                        <HoloCard
+                          variant="link"
+                          eyebrow="App"
+                          badge="MPS"
+                          title="Manzanos PopShop"
+                          desc="Collectible Pops & merch with wishlists, tracking, themed UI, and a smooth checkout."
+                          iconSrc={AppImages.mpsIcon}
+                          iconAlt="Manzanos PopShop"
+                          iconSize={28}
+                          iconShape="rounded"
+                          href="https://rubenmanzano.com/manzanos-popshop"
+                        />
+                      </motion.div>
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* RIGHT: Snapshot / Stats column (VERTICAL SCROLL) */}
+              <motion.div
+                className="lg:col-span-4 flex flex-col gap-4"
+                variants={fadeUpVariant(0.08)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <SectionTitle title="Snapshot" subtitle="ManzanoHQ in numbers" />
+
+                <div
+                  className="relative rounded-3xl border bg-white/5 backdrop-blur-xl p-4 sm:p-5 overflow-hidden"
+                  style={{ borderColor: `rgba(${PRIMARY_RGB},0.25)` }}
+                >
+                  <div className="h-auto max-h-[285px] lg:h-[285px] overflow-y-auto pr-1">
+                    <Stats compact />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* WHY MANZANOHQ */}
+        {/* <section id="why" className="px-4 sm:px-6 lg:px-10 py-10 lg:py-16">
+          <div className="mx-auto w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            <motion.div
+              variants={fadeUpVariant(0.05)}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.4 }}
+              className="lg:col-span-6"
+            >
+              <SectionTitle
+                title="Why ManzanoHQ"
+                subtitle="Design-led, shipping-focused"
+              />
+              <ul className="mt-5 sm:mt-6 space-y-2.5 sm:space-y-3 text-white/75 leading-relaxed">
+                <li>• Lorem ipsum dolor sit amet, consectetur adipisicing elit…</li>
+                <li>• Lorem ipsum dolor sit amet consectetur adipisicing elit…</li>
+                <li>• Lorem ipsum dolor sit amet consectetur adipisicing elit…</li>
+              </ul>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUpVariant(0.12)}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.4 }}
+              className="lg:col-span-6"
+            >
+              <div
+                className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 backdrop-blur-xl bg-white/5 border"
+                style={{ borderColor: `rgba(${ACCENT_RGB},0.35)` }}
+              >
+                <div className="flex flex-wrap gap-2.5 sm:gap-3 text-sm text-white/80">
+                  {["Blank", "Lorem", "Ipsum", "Test", "Pow", "Wow"].map((t) => (
+                    <span
+                      key={t}
+                      className="px-3 py-1 rounded-full border border-white/15 bg-white/5"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-4 sm:mt-6 text:white/70">
+                  lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                  eiusmod tempor incididunt ut labore…
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section> */}
+
+        {/* SHOWCASE */}
+        {/* <section id="showcase" className="px-4 sm:px-6 lg:px-10 py-10 lg:py-16">
+          <div className="mx-auto w-full max-w-7xl">
+            <SectionTitle title="Showcase" subtitle="subtitle" />
+            <motion.div
+              className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mt-6 sm:mt-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.25 }}
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <motion.div
+                  key={i}
+                  variants={item}
+                  whileHover={{ scale: 1.03 }}
+                  className="aspect-square rounded-2xl overflow-hidden border bg-white/5"
+                  style={{ borderColor: `rgba(${PRIMARY_RGB},0.2)` }}
+                >
+                  <Image
+                    src={AppImages.dev}
+                    alt={`Showcase ${i}`}
+                    width={800}
+                    height={800}
+                    className="w-full h-full object-cover"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    priority={i <= 2}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section> */}
+
+        {/* FAQ */}
+        {/* <section className="px-4 sm:px-6 lg:px-10 py-10 lg:py-16">
+          <div className="mx-auto w-full max-w-7xl">
+            <SectionTitle title="FAQ" subtitle="Good to know" />
+            <div className="mt-6 sm:mt-8">
+              <FAQ />
+            </div>
+          </div>
+        </section> */}
+
+        {/* CONTACT / CTA + Newsletter on the left */}
+        <ContactSection onOpenHire={() => setOpenHire(true)} />
       </main>
 
       {/* FOOTER */}
@@ -229,9 +347,6 @@ export default function Home() {
         <div className="mx-auto w-full max-w-7xl flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 border-t border-white/10 pt-5 sm:pt-6 text-white/50">
           <span>© {new Date().getFullYear()} ManzanoHQ</span>
           <div className="flex items-center gap-4">
-            <a className="hover:text-white transition" href="/brand">
-              Brand
-            </a>
             <a className="hover:text-white transition" href="/privacy">
               Privacy
             </a>
@@ -255,7 +370,7 @@ export default function Home() {
         onClick={() => setOpenHire(true)}
       >
         <div
-          className="px-4 sm:px-5 py-3 rounded-full font-semibold shadow-2xl border text-white backdrop-blur-md"
+          className="px-4 sm:px-5 py-3 rounded-full font-semibold shadow-2xl border text:white backdrop-blur-md"
           style={{
             background:
               "linear-gradient(90deg, rgba(61,63,143,0.28), rgba(13,79,163,0.28))",
@@ -266,7 +381,6 @@ export default function Home() {
         </div>
       </motion.button>
 
-      {/* MODAL */}
       <HireDialog
         open={openHire}
         onClose={() => setOpenHire(false)}

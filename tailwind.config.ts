@@ -1,18 +1,17 @@
 // tailwind.config.ts
-
 import type { Config } from 'tailwindcss';
-// import { fontFamily } from 'tailwindcss/defaultTheme';
-// import nativewind from 'nativewind/preset';
-
 
 const config: Config = {
   darkMode: 'class',
   content: [
+    './src/app/**/*.{ts,tsx}',
+    './src/pages/**/*.{ts,tsx}',
+    './src/components/**/*.{ts,tsx}',
+    // keep these if you also have non-src folders:
     './app/**/*.{ts,tsx}',
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
   ],
-  presets: [],
   theme: {
     extend: {
       colors: {
@@ -21,10 +20,20 @@ const config: Config = {
         carbon: '#111318',
       },
       fontFamily: {
-        sans: [
-          'var(--font-sans)',
-          // ...fontFamily.sans,
-        ],
+        komigo: ["var(--font-komigo)", "ui-sans-serif", "system-ui"],
+        momo: ["var(--font-momo)", "ui-sans-serif", "system-ui"],
+        lato: ["var(--font-lato)", "ui-sans-serif", "system-ui"],
+
+        // Treat visual variants as separate families:
+        oups: ["var(--font-oups)", "ui-sans-serif", "system-ui"],
+        'oups-outline': ["var(--font-oups-outline)", "ui-sans-serif", "system-ui"],
+        'oups-clean': ["var(--font-oups-clean)", "ui-sans-serif", "system-ui"],
+
+        kablam: ["var(--font-kablam)", "ui-sans-serif", "system-ui"],
+        'kablam-fill': ["var(--font-kablam-fill)", "ui-sans-serif", "system-ui"],
+
+        // optional sans stack if you use it
+        // sans: ['var(--font-sans)'],
       },
       boxShadow: {
         glow: '0 0 40px rgba(32, 248, 255, 0.35)',
@@ -37,6 +46,5 @@ const config: Config = {
   },
   plugins: [],
 };
-
 
 export default config;

@@ -76,7 +76,7 @@ export default function HoloCard({
       : (props: { children: React.ReactNode }) => (
           <div
             className={[
-              'flex items-center justify-center bg-white/5 border overflow-hidden', // <-- overflow-hidden to clip image corners
+              'flex items-center justify-center bg-white/5 border overflow-hidden',
               iconShape === 'circle' ? 'h-12 w-12 rounded-full' : 'h-12 w-12 rounded-2xl',
               iconBgClassName ?? '',
             ]
@@ -120,7 +120,6 @@ export default function HoloCard({
       onMouseMove={onMove}
       onMouseLeave={onLeave}
     >
-      {/* Shine (clipped by overflow-hidden) */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 rounded-3xl will-change-transform"
@@ -134,8 +133,7 @@ export default function HoloCard({
         }}
       />
 
-      {/* Eyebrow + Badge */}
-      <div className="flex items-center gap-2 min-h-[24px]">
+      <div className="flex items-center gap-2 min-h-6">
         {eyebrow && (
           <span className="text-xs uppercase tracking-wider text-white/50">{eyebrow}</span>
         )}
@@ -149,7 +147,6 @@ export default function HoloCard({
         )}
       </div>
 
-      {/* Icon area */}
       {iconShape === 'none' ? (
         <>
           {icon

@@ -1,3 +1,4 @@
+// components/ui/FAQ.tsx
 'use client';
 
 import { useState } from 'react';
@@ -6,10 +7,30 @@ import { motion, AnimatePresence } from 'framer-motion';
 type QA = { q: string; a: string };
 
 const faqs: QA[] = [
-  { q: "What do you build?", a: "High-polish apps (iOS, Android, Web), storefronts, and reusable UI/motion systems." },
-  { q: "How do we get started?", a: "Share a brief. We’ll respond with scope, milestones, and a fixed or milestone-based quote." },
-  { q: "Do you handle deployments?", a: "Yep. App Store/Play, Vercel, Render, Cloudflare, plus CI/CD, feature flags, and analytics." },
-  { q: "Do you offer post-launch support?", a: "We prefer retainers that cover fixes, upgrades, and small enhancements each month." },
+  {
+    q: "What does ManzanoHQ actually build?",
+    a: "We design and build high-polish digital products — apps, storefronts, and the UI systems behind them. Right now that includes Manzanos PopShop, with more products planned under the ManzanoHQ ecosystem.",
+  },
+  {
+    q: "How do we get started working together?",
+    a: "Start with a short brief: what you’re trying to build, who it’s for, and any timeline or constraints. From there, we’ll suggest a starting scope, rough milestones, and whether it makes more sense as a one-off build or a longer-term partnership.",
+  },
+  {
+    q: "Who is a good fit to work with ManzanoHQ?",
+    a: "Founders, small teams, and family businesses that care about polish, storytelling, and user experience. If you want something that feels thoughtfully designed instead of templated, we’re usually a good fit.",
+  },
+  {
+    q: "Do you handle both design and development?",
+    a: "Yes. ManzanoHQ is design-led but full-stack: we handle UX, UI, motion, and the actual build — from app screens and flows to data models, integrations, and storefront logic.",
+  },
+  {
+    q: "Can you help with App Store / Play Store / web deployments?",
+    a: "Yes. We can set up builds, provisioning, basic analytics, and deploy to the App Store, Google Play, or web hosts like Vercel. We prefer to ship something real, not just hand off static screens.",
+  },
+  {
+    q: "Do you offer post-launch support or ongoing work?",
+    a: "Yes. The ideal setup is a small ongoing retainer that covers fixes, upgrades, and incremental improvements. That way the product can evolve instead of being a one-and-done launch.",
+  },
 ];
 
 export default function FAQ() {
@@ -26,8 +47,12 @@ export default function FAQ() {
               onClick={() => setOpen(isOpen ? null : i)}
               aria-expanded={isOpen}
             >
-              <span className="font-medium">{f.q}</span>
-              <span className="ml-4 text-white/60">{isOpen ? '–' : '+'}</span>
+              <span className="font-medium text-sm sm:text-base">
+                {f.q}
+              </span>
+              <span className="ml-4 text-white/60 text-lg leading-none">
+                {isOpen ? '–' : '+'}
+              </span>
             </button>
             <AnimatePresence initial={false}>
               {isOpen && (
@@ -38,7 +63,9 @@ export default function FAQ() {
                   transition={{ duration: 0.25 }}
                   className="overflow-hidden"
                 >
-                  <div className="pt-3 text-white/70">{f.a}</div>
+                  <div className="pt-3 text-white/70 text-sm leading-relaxed">
+                    {f.a}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

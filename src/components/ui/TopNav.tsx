@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ACCENT_RGB } from '@/lib/brand';
+import AppImages from '@/constants/images';
 
 export default function TopNav() {
   const { scrollY } = useScroll();
@@ -46,7 +47,7 @@ export default function TopNav() {
               style={{ outline: `1px solid rgba(${ACCENT_RGB},0.5)` }}
             >
               <Image
-                src="/images/logo/logoMain.png"
+                src={AppImages.logoInvertAlpha}
                 alt="ManzanoHQ icon"
                 fill
                 sizes="(max-width: 640px) 32px, 36px"
@@ -55,10 +56,10 @@ export default function TopNav() {
             </motion.div>
           </Link>
 
-          {/* <div className="hidden sm:flex items-center gap-4 text-sm">
+          <div className="hidden sm:flex items-center gap-4 text-sm">
             <Link href="#products" className="text-white/80 hover:text-white transition">Products</Link>
-            <Link href="#pillars" className="text-white/80 hover:text-white transition">What we do</Link>
-            <Link href="#showcase" className="text-white/80 hover:text-white transition">Showcase</Link>
+            {/* <Link href="#pillars" className="text-white/80 hover:text-white transition">What we do</Link>
+            <Link href="#showcase" className="text-white/80 hover:text-white transition">Showcase</Link> */}
             <a
               href="mailto:rmanzano.se@gmail.com"
               className="rounded-xl border px-3 py-1.5 bg-white/5 hover:bg-white/10 transition"
@@ -66,7 +67,7 @@ export default function TopNav() {
             >
               Contact
             </a>
-          </div> */}
+          </div>
         </nav>
       </motion.div>
     </motion.header>

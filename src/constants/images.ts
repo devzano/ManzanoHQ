@@ -1,6 +1,7 @@
 // src/constants/images.ts
 import type { StaticImageData } from "next/image";
 
+import DEV from "../../public/images/devLogos/devzano.png";
 import Logo from "../../public/images/logo/logoMain.png";
 import LogoAlt from "../../public/images/logo/logoMainAlt.png";
 import LogoInvertAlpha from "../../public/images/logo/logoInvertAlpha.png";
@@ -22,6 +23,7 @@ import VSCode from "../../public/images/devLogos/visualstudio.png";
 type Img = StaticImageData;
 
 const AppImages = {
+  dev: DEV as Img,
   logo: Logo as Img,
   logoAlt: LogoAlt as Img,
   logoInvertAlpha: LogoInvertAlpha as Img,
