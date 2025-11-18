@@ -1,6 +1,10 @@
 // app/layout.tsx
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { kaBlam, kaBlamFill, komigo, lato, momo, oups, oupsClean, oupsOutline } from '@/constants/fonts';
+import DynamicMeshBackground from '@/components/ui/DynamicMeshBackground';
+import FloatingOrbs from '@/components/ui/FloatingOrbs';
+import Beams from '@/components/ui/Beams';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.manzanohq.com'),
@@ -73,11 +77,29 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode; }) {
   return (
-    <html lang="en" className="h-full">
+    <html
+      lang="en"
+      className={[
+        komigo.variable,
+        momo.variable,
+        lato.variable,
+        oups.variable,
+        oupsOutline.variable,
+        oupsClean.variable,
+        kaBlam.variable,
+        kaBlamFill.variable,
+        "h-full w-full",
+      ].join(" ")}
+    >
       <body className="h-full bg-black text-white antialiased">
-        {children}
+        <DynamicMeshBackground />
+        <FloatingOrbs />
+        <Beams />
+        <div className="relative z-10 min-h-screen">
+          {children}
+        </div>
       </body>
     </html>
   );
