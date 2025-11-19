@@ -86,7 +86,7 @@ export default function DynamicMeshBackground() {
       />
 
       {/* Soft grid / noise layer */}
-      <motion.div
+      {/* <motion.div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0 opacity-60"
         style={{
@@ -95,7 +95,7 @@ export default function DynamicMeshBackground() {
           backgroundSize: '24px 24px',
           mixBlendMode: 'screen',
         }}
-      />
+      /> */}
     </>
   );
 }

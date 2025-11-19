@@ -1,4 +1,4 @@
-// app/page.tsx
+// app/(site)/page.tsx
 'use client';
 
 import Image from "next/image";
@@ -86,7 +86,6 @@ export default function Home() {
                 className="text-4xl sm:text-5xl lg:text-7xl tracking-tight leading-[1.05] text-balance"
                 style={{ fontFamily: "var(--font-lato)" }}
               >
-                {/* Visually it's an image, but we still give screen readers real text */}
                 <span className="sr-only">ManzanoHQ — Apps & Commerce</span>
 
                 <span className="relative inline-block w-[220px] sm:w-[280px] lg:w-[360px]">

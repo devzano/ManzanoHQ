@@ -11,12 +11,10 @@ export default function TopNav() {
   const { scrollY } = useScroll();
 
   // numeric -> numeric
-  const bgOpacity = useTransform(scrollY, [0, 80], [0, 1]);
   const borderOpacity = useTransform(scrollY, [0, 80], [0, 0.12]);
   const y = useTransform(scrollY, [0, 40], [0, -6]);
 
   // numeric -> string CSS with useTransform mapper (instead of `.to`)
-  const bgColor = useTransform(bgOpacity, (o) => `rgba(10,10,10,${o})`);
   const borderColor = useTransform(borderOpacity, (o) => `rgba(255,255,255,${o})`);
 
   return (
@@ -27,7 +25,6 @@ export default function TopNav() {
     >
       <motion.div
         style={{
-          backgroundColor: bgColor,
           borderBottomColor: borderColor,
         }}
         className="backdrop-blur-xl border-b will-change-transform"
