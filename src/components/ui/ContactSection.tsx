@@ -169,7 +169,7 @@ export default function ContactSection({ onOpenHire }: ContactSectionProps) {
                   />
                 </Magnetic>
                 <a
-                  href="mailto:rmanzano.se@gmail.com"
+                  href="mailto:manzanohq@gmail.com"
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border text-white/80 font-semibold hover:bg-white/5 transition"
                   style={{ borderColor: `rgba(${ACCENT_RGB},0.35)` }}
                 >

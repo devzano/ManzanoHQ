@@ -366,8 +366,8 @@ export default function TermsPage() {
               <strong>ManzanoHQ LLC</strong>
               <br />
               Email:{" "}
-              <a href="mailto:rmanzano.se@gmail.com">
-                rmanzano.se@gmail.com
+              <a href="mailto:manzanohq@gmail.com">
+                manzanohq@gmail.com
               </a>
               <br />
               Website:{" "}

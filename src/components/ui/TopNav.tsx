@@ -55,10 +55,10 @@ export default function TopNav() {
 
           <div className="hidden sm:flex items-center gap-4 text-sm">
             <Link href="#products" className="text-white/80 hover:text-white transition">Products</Link>
-            {/* <Link href="#pillars" className="text-white/80 hover:text-white transition">What we do</Link>
+            {/* <Link href="#pillars" className="text-white/80 hover:text-white transition">What We Do</Link>
             <Link href="#showcase" className="text-white/80 hover:text-white transition">Showcase</Link> */}
             <a
-              href="mailto:rmanzano.se@gmail.com"
+              href="mailto:manzanohq@gmail.com"
               className="rounded-xl border px-3 py-1.5 bg-white/5 hover:bg-white/10 transition"
               style={{ borderColor: `rgba(${ACCENT_RGB},0.35)` }}
             >
