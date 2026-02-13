@@ -221,7 +221,7 @@ export default function Home() {
                           iconAlt="Manzanos PopShop"
                           iconSize={28}
                           iconShape="rounded"
-                          href="https://rubenmanzano.com/manzanos-popshop"
+                          href="https://www.manzanospopshop.com"
                         />
                       </motion.div>
                     </motion.div>
