@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePathname, useSearchParams } from 'next/navigation';
 
@@ -14,11 +15,32 @@ type TopNavProps = {
   hideActions?: boolean;
 };
 
+// This MUST be wrapped in <Suspense> anywhere it renders.
+function LegalModalDetector({ onChange }: { onChange: (v: boolean) => void }) {
+  const searchParams = useSearchParams();
+
+  const isLegalModal = useMemo(() => {
+    const modal = (searchParams?.get('modal') ?? '').toLowerCase();
+    return (
+      modal === 'privacy' ||
+      modal === 'terms' ||
+      modal === 'legal' ||
+      searchParams?.get('legal') === '1'
+    );
+  }, [searchParams]);
+
+  useEffect(() => {
+    onChange(isLegalModal);
+  }, [isLegalModal, onChange]);
+
+  return null;
+}
+
 export default function TopNav({ hideActions }: TopNavProps) {
   const { scrollY } = useScroll();
 
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const [isLegalModal, setIsLegalModal] = useState(false);
 
   // numeric -> numeric
   const borderOpacity = useTransform(scrollY, [0, 80], [0, 0.12]);
@@ -33,16 +55,15 @@ export default function TopNav({ hideActions }: TopNavProps) {
     pathname === '/terms' ||
     pathname.startsWith('/legal');
 
-  // If you ever open legal as a modal via query param, this will catch common patterns:
-  // /?modal=privacy, /?modal=terms, /?modal=legal, /?legal=1
-  const modal = searchParams?.get('modal')?.toLowerCase() ?? '';
-  const isLegalModal =
-    modal === 'privacy' || modal === 'terms' || modal === 'legal' || searchParams?.get('legal') === '1';
-
   const shouldHideActions = hideActions ?? (isLegalPath || isLegalModal);
 
   return (
     <motion.header style={{ y }} className="fixed top-0 left-0 right-0 z-50" aria-label="Primary">
+      {/* Query-param detection is isolated behind Suspense to satisfy Next */}
+      <Suspense fallback={null}>
+        <LegalModalDetector onChange={setIsLegalModal} />
+      </Suspense>
+
       <motion.div
         style={{ borderBottomColor: borderColor }}
         className="backdrop-blur-xl border-b will-change-transform"
