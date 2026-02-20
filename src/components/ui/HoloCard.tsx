@@ -8,6 +8,14 @@ import * as React from 'react';
 
 type IconSource = StaticImageData | string;
 
+type ClickAction = {
+  href?: string; // opened via window.open (never rendered as <a>)
+  onClick?: (e: React.MouseEvent) => void;
+  target?: '_blank' | '_self';
+  rel?: string; // kept for API compatibility; not used directly
+  ariaLabel?: string;
+};
+
 type Props = {
   title: string;
   desc: string;
@@ -15,16 +23,71 @@ type Props = {
   iconSrc?: IconSource;
   iconAlt?: string;
   iconSize?: number;
+
   iconShape?: 'rounded' | 'circle' | 'none';
   iconBgClassName?: string;
 
   delay?: number;
   href?: string;
   className?: string;
-  badge?: string;
-  eyebrow?: string;
+
+  eyebrow?: string; // default label: "Open App"
+  badge?: string;   // default label: "Open Site"
+
+  eyebrowAction?: ClickAction;
+  badgeAction?: ClickAction;
+
   variant?: 'default' | 'link';
 };
+
+function stopCardNav(e: React.MouseEvent) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+function ActionPill({
+  label,
+  action,
+  subtle,
+}: {
+  label: string;
+  action?: ClickAction;
+  subtle?: boolean;
+}) {
+  const isClickable = !!(action?.href || action?.onClick);
+  if (!isClickable) return null;
+
+  return (
+    <button
+      type="button"
+      aria-label={action?.ariaLabel ?? label}
+      className={[
+        'appearance-none border text-left',
+        'px-2.5 py-1 rounded-full text-xs font-medium',
+        'transition select-none cursor-pointer',
+        subtle
+          ? 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10'
+          : 'bg-white/10 text-white/85 border-white/15 hover:bg-white/15',
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40',
+      ].join(' ')}
+      onClick={(e) => {
+        stopCardNav(e);
+
+        action?.onClick?.(e);
+
+        if (action?.href) {
+          const target = action.target ?? '_blank';
+          window.open(action.href, target, 'noopener,noreferrer');
+        }
+      }}
+    >
+      {label}
+      <span className="ml-1.5 opacity-70" aria-hidden>
+        →
+      </span>
+    </button>
+  );
+}
 
 export default function HoloCard({
   title,
@@ -38,9 +101,10 @@ export default function HoloCard({
   delay = 0,
   href,
   className,
-  badge,
   eyebrow,
-  variant = 'default',
+  badge,
+  eyebrowAction,
+  badgeAction,
 }: Props) {
   const Container: any = href ? motion.a : motion.div;
 
@@ -63,12 +127,10 @@ export default function HoloCard({
     ry.set(0);
   }
 
-  // Shine sweep
   const shineX = useTransform(ry, [-6, 6], ['0%', '100%']);
 
-  // Image rounding based on iconShape
   const imgRoundClass =
-    iconShape === 'circle' ? 'rounded-full' : iconShape === 'rounded' ? 'rounded-md' : '';
+    iconShape === 'circle' ? 'rounded-full' : iconShape === 'rounded' ? 'rounded-xl' : '';
 
   const IconChip =
     iconShape === 'none'
@@ -76,21 +138,24 @@ export default function HoloCard({
       : (props: { children: React.ReactNode }) => (
           <div
             className={[
-              'flex items-center justify-center bg-white/5 border overflow-hidden',
+              'flex items-center justify-center bg-white/5 border overflow-hidden shrink-0',
               iconShape === 'circle' ? 'h-12 w-12 rounded-full' : 'h-12 w-12 rounded-2xl',
               iconBgClassName ?? '',
             ]
               .join(' ')
               .trim()}
             style={{
-              borderColor: `rgba(${ACCENT_RGB},0.45)`,
-              boxShadow: `0 0 40px rgba(${ACCENT_RGB},0.25)`,
+              borderColor: `rgba(${ACCENT_RGB},0.35)`,
+              boxShadow: `0 0 30px rgba(${ACCENT_RGB},0.2)`,
             }}
             aria-hidden
           >
             {props.children}
           </div>
         );
+
+  const openAppLabel = eyebrow?.trim() || 'Open App';
+  const openSiteLabel = badge?.trim() || 'Open Site';
 
   return (
     <Container
@@ -101,10 +166,13 @@ export default function HoloCard({
       whileInView={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ type: 'spring', stiffness: 70, damping: 14, delay }}
-      whileHover={{ scale: 1.01, boxShadow: `0 0 40px rgba(${ACCENT_RGB},0.25)` }}
+      whileHover={{ scale: 1.01, boxShadow: `0 0 40px rgba(${ACCENT_RGB},0.22)` }}
       className={[
+        // medium-tall “square card” vibe
         'relative rounded-3xl overflow-hidden isolate transform-gpu will-change-transform',
-        'p-6 flex flex-col gap-3 backdrop-blur-xl bg-white/5 border border-white/10',
+        'p-6 flex flex-col justify-between',
+        'min-h-[220px] sm:min-h-[240px] lg:min-h-[260px]',
+        'backdrop-blur-xl bg-white/5 border border-white/10',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40',
         href ? 'cursor-pointer' : '',
         className ?? '',
@@ -120,6 +188,7 @@ export default function HoloCard({
       onMouseMove={onMove}
       onMouseLeave={onLeave}
     >
+      {/* shine */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 rounded-3xl will-change-transform"
@@ -133,58 +202,56 @@ export default function HoloCard({
         }}
       />
 
-      <div className="flex items-center gap-2 min-h-6">
-        {eyebrow && (
-          <span className="text-xs uppercase tracking-wider text-white/50">{eyebrow}</span>
+      {/* TOP: icon + app name */}
+      <div className="flex items-center gap-3">
+        {iconShape === 'none' ? (
+          <>
+            {icon
+              ? icon
+              : iconSrc && (
+                  <Image
+                    src={iconSrc}
+                    alt={iconAlt ?? title}
+                    width={iconSize}
+                    height={iconSize}
+                    className={`object-contain ${imgRoundClass}`}
+                  />
+                )}
+          </>
+        ) : (
+          <IconChip>
+            {icon
+              ? icon
+              : iconSrc && (
+                  <Image
+                    src={iconSrc}
+                    alt={iconAlt ?? title}
+                    width={iconSize}
+                    height={iconSize}
+                    className={`object-contain ${imgRoundClass}`}
+                  />
+                )}
+          </IconChip>
         )}
-        {badge && (
-          <span
-            className="text-xs px-2 py-0.5 rounded-full bg-white/5 border"
-            style={{ borderColor: `rgba(${ACCENT_RGB},0.35)` }}
-          >
-            {badge}
-          </span>
-        )}
+
+        <h3 className="min-w-0 text-lg sm:text-xl font-semibold tracking-wide leading-tight truncate">
+          {title}
+        </h3>
       </div>
 
-      {iconShape === 'none' ? (
-        <>
-          {icon
-            ? icon
-            : iconSrc && (
-                <Image
-                  src={iconSrc}
-                  alt={iconAlt ?? title}
-                  width={iconSize}
-                  height={iconSize}
-                  className={`object-contain ${imgRoundClass}`}
-                />
-              )}
-        </>
-      ) : (
-        <IconChip>
-          {icon
-            ? icon
-            : iconSrc && (
-                <Image
-                  src={iconSrc}
-                  alt={iconAlt ?? title}
-                  width={iconSize}
-                  height={iconSize}
-                  className={`object-contain ${imgRoundClass}`}
-                />
-              )}
-        </IconChip>
-      )}
+      {/* MIDDLE: description */}
+      <p className="mt-3 text-white/70 leading-relaxed textLimit3">
+        {desc}
+      </p>
 
-      <h3 className="text-xl font-semibold tracking-wide">{title}</h3>
-      <p className="text-white/70 leading-relaxed textLimit2">{desc}</p>
-
-      {variant === 'link' && href && (
-        <div className="inline-flex items-center gap-2 text-white/80 mt-2">
-          <span className="text-sm font-medium">Learn more</span>
-          <span aria-hidden>→</span>
+      {/* BOTTOM: CTAs (in place of “Learn more”) */}
+      {(eyebrowAction || badgeAction) ? (
+        <div className="mt-5 flex items-center gap-2">
+          <ActionPill label={openAppLabel} action={eyebrowAction} />
+          <ActionPill label={openSiteLabel} action={badgeAction} subtle />
         </div>
+      ) : (
+        <div className="mt-5 h-8" aria-hidden />
       )}
     </Container>
   );

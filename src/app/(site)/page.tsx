@@ -45,6 +45,40 @@ export default function Home() {
     [30, 60]
   )}px rgba(${ACCENT_RGB}, 0.35)`;
 
+  // app/(site)/page.tsx (inside Home component file)
+
+  // put these near the top of the file (constants are fine too)
+  const IOS_APP_STORE = "https://apps.apple.com/us/app/manzanos-popshop/id6747915168";
+  const ANDROID_PLAY_STORE =
+    "https://play.google.com/store/apps/details?id=com.devzano.manzanospopshop";
+
+  const MPS_DEEP_LINK = "manzanospopshop://";
+
+  // simple UA detection (no extra imports)
+  function isIOS() {
+    if (typeof navigator === "undefined") return false;
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && (navigator as any).maxTouchPoints > 1);
+  }
+  function isAndroid() {
+    if (typeof navigator === "undefined") return false;
+    return /Android/.test(navigator.userAgent);
+  }
+
+  function openMpsAppWithFallback() {
+    // desktop: just go to website
+    if (typeof window === "undefined") return;
+
+    const fallback = isIOS() ? IOS_APP_STORE : isAndroid() ? ANDROID_PLAY_STORE : "https://www.manzanospopshop.com";
+
+    // attempt deep link
+    window.location.href = MPS_DEEP_LINK;
+
+    // fallback after a short delay
+    window.setTimeout(() => {
+      window.location.href = fallback;
+    }, 900);
+  }
+
   return (
     <div
       ref={pageRef}
@@ -212,16 +246,23 @@ export default function Home() {
                         className="w-[260px] sm:w-[280px] lg:w-[320px] shrink-0"
                       >
                         <HoloCard
-                          variant="link"
-                          eyebrow="App"
-                          badge="MPS"
                           title="Manzanos PopShop"
                           desc="Collectible Pops & merch with wishlists, tracking, themed UI, and a smooth checkout."
                           iconSrc={AppImages.mpsIcon}
                           iconAlt="Manzanos PopShop"
-                          iconSize={28}
+                          iconSize={26}
                           iconShape="rounded"
                           href="https://www.manzanospopshop.com"
+                          eyebrow="Open App"
+                          badge="Open Site"
+                          badgeAction={{
+                            href: "https://www.manzanospopshop.com",
+                            ariaLabel: "Open Manzanos PopShop website",
+                          }}
+                          eyebrowAction={{
+                            onClick: () => openMpsAppWithFallback(),
+                            ariaLabel: "Open Manzanos PopShop app",
+                          }}
                         />
                       </motion.div>
                     </motion.div>
